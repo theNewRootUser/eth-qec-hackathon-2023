@@ -39,18 +39,27 @@ def add_single_qubit_gates(params, circuit):
     # edges (red)
     
     # middle (yellow)
-    
+    #print(dir(circuit))
     return circuit
 
 def add_two_qubit_gates(params, circuit):
     # corners (green)
     
+    circuit.cry(params[0], 0, 1)
+    circuit.cry(params[0], 2, 1)
+    circuit.cry(params[0], 0, 3)
+    circuit.cry(params[0], 6, 3)
+    circuit.cry(params[0], 2, 5)
+    circuit.cry(params[0], 8, 5)
+    circuit.cry(params[0], 6, 7)
+    circuit.cry(params[0], 8, 7)
+
+    for i in edge_qubits:
+        circuit.cry(params[1], i, 4)
+
+    for i in corner_qubits:
+        circuit.cry(params[2], 4, i)
     
-    # yellow two-qubit gates
-        
-    # red two-qubit gates
-    
-    # green two-qubit gates
     
     
     return circuit
@@ -86,9 +95,9 @@ circuits = (
     circ
 )
 observables = (
-    SparsePauliOp("ZIZIZIZII") / 4.0,
+    SparsePauliOp("ZIZIIIZIZ") / 4.0,
     SparsePauliOp("IZIZIZIZI") / 4.0,
-    SparsePauliOp("IIIIIIIIZ")
+    SparsePauliOp("IIIIZIIII")
 )
 
 job = estimator.run(circuits, observables)
